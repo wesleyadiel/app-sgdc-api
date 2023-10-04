@@ -70,10 +70,26 @@ const ValidarUsuarioExistente = async (usuario) => {
     }
 }
 
+const GetUserById = async (id) => {
+    try {
+        console.log(id);
+        const client = await ConnectDB();
+        const result = await client.query(`${usuarioSelect} WHERE idUsuario = ${id}`);
+console.log('a')
+        if (result.rows.length <= 0)
+            return [null, 'Usuário não encontrado.'];
+
+        return [result.rows[0], 'Usuário encontrado.'];
+    } catch (error) {
+        return [null, error];
+    }
+}
+
 module.exports = {
     CriptografarSenha,
     GetNextId,
     SalvarUsuario,
     VerificarUsuario,
-    ValidarUsuarioExistente
+    ValidarUsuarioExistente,
+    GetUserById
 }
