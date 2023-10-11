@@ -1,7 +1,9 @@
 
 const ConnectDB = async () => {
     if (global.connection)
+    {
         return global.connection.connect();
+    }
  
     const { Pool } = require('pg');
     const pool = new Pool({
@@ -18,12 +20,10 @@ const ConnectDB = async () => {
     await client.query('SELECT NOW()');
     client.release();
  
-    //guardando para usar sempre o mesmo
     global.connection = pool;
+
     return pool.connect();
 }
-
-ConnectDB();
 
 module.exports = {
     ConnectDB
