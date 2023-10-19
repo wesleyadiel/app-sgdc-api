@@ -1,7 +1,8 @@
-
+var conectionsGlobalCount = 0;
 const ConnectDB = async () => {
-    if (global.connection)
+    if (global.connection && conectionsGlobalCount < 6)
     {
+        conectionsGlobalCount++;
         return global.connection.connect();
     }
  
@@ -22,6 +23,7 @@ const ConnectDB = async () => {
  
     global.connection = pool;
 
+    conectionsGlobalCount = 0
     return pool.connect();
 }
 

@@ -22,6 +22,7 @@ const GetNextId = async () => {
     try {
         const client = await ConnectDB();
         const result = await client.query(`SELECT COALESCE(MAX(idUsuario), 0) + 1 AS newId FROM usuario`);
+        client.end();
 
         return result.rows[0].newid;
     } catch (error) {
@@ -35,10 +36,12 @@ const SalvarUsuario = async (usuario) => {
         if (!usuario.id) {
             const client = await ConnectDB();
             await client.query(usuarioInsert, [await GetNextId(), usuario.nome, usuario.usuario, (usuario.tipo ?? 'P'), await CriptografarSenha(usuario.senha)]);
+            client.end();
         }
         else {
             const client = await ConnectDB();
             await client.query(`${usuarioUpdate} nome = $1, usuario = $2, tipo = $3 WHERE idUsuario = $4`, [usuario.nome, usuario.usuario, (usuario.tipo ?? 'P'), usuario.id]);
+            client.end();
         }
 
         return [true, 'Usuário salvo com sucesso!'];
@@ -52,6 +55,7 @@ const VerificarUsuario = async (usuario, senha) => {
     try {
         const client = await ConnectDB();
         const result = await client.query(`${usuarioSelect} WHERE usuario = '${usuario}'`);
+        client.end();
 
         if (result.rows.length <= 0)
             return [null, 'Usuário não encontrado.'];
@@ -71,6 +75,7 @@ const ValidarUsuarioExistente = async (usuario) => {
     try {
         const client = await ConnectDB();
         const result = await client.query(`${usuarioSelect} WHERE usuario = '${usuario}'`);
+        client.end();
 
         if (result.rows.length <= 0)
             return [false, 'Usuário disponível.'];
@@ -86,6 +91,7 @@ const GetUserById = async (id) => {
     try {
         const client = await ConnectDB();
         const result = await client.query(`${usuarioSelect} WHERE idUsuario = ${id}`);
+        client.end();
 
         if (result.rows.length <= 0)
             return [null, 'Usuário não encontrado.'];
@@ -101,6 +107,7 @@ const AtualizarSenha = async (idUsuario, senha) => {
     try {
         const client = await ConnectDB();
         await client.query(`${usuarioUpdate} senha = $1 WHERE idUsuario = $2`, [await CriptografarSenha(senha), idUsuario]);
+        client.end();
 
         return [true, 'Senha atualizada.'];
     } catch (error) {
@@ -112,7 +119,8 @@ const AtualizarSenha = async (idUsuario, senha) => {
 const BuscarUsuários = async () => {
     try {
         const client = await ConnectDB();
-        const result = await client.query(usuarioSelect);
+        const result = await client.query(`${usuarioSelect} ORDER BY idUsuario`);
+        client.end();
 
         if (result.rows.length <= 0)
             return [null, 'Nenhum usuários encontrado.'];
@@ -128,6 +136,7 @@ const RemoverUsuario = async (id) => {
     try {
         const client = await ConnectDB();
         await client.query(`${usuarioDelete} idUsuario = $1`, [id]);
+        client.end();
 
         return [true, 'Usuário removido.'];
     } catch (error) {

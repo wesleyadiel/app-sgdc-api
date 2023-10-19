@@ -42,9 +42,11 @@ const Salvar = async (req, res) => {
 
   req.body.senha = process.env.FIRST_PASSWORD;
 
-  const [usuarioUtilizado, messageValidar] = await ValidarUsuarioExistente(req.body.usuario);
-  if (usuarioUtilizado)
-    return res.status(400).json(messageValidar);
+  if (!req.body.id) {
+    const [usuarioUtilizado, messageValidar] = await ValidarUsuarioExistente(req.body.usuario);
+    if (usuarioUtilizado)
+      return res.status(400).json(messageValidar);
+  }
 
   var [isSaved, message] = await SalvarUsuario(req.body);
   if (!isSaved)
@@ -133,10 +135,10 @@ const GetUsuariosById = async (req, res) => {
     return res.status(403).json("Token inválido. " + error)
   }
 
-  if(!req.query.id)
-  return res.status(400).json("Usuário inválido.");
+  if (!req.params.id)
+    return res.status(400).json("Usuário inválido.");
 
-  const [retorno, message] = await GetUserById(req.query.id);
+  const [retorno, message] = await GetUserById(req.params.id);
   if (!retorno)
     return res.status(400).json(message);
 
@@ -157,7 +159,7 @@ const DeletarUsuario = async (req, res) => {
     return res.status(403).json("Token inválido. " + error)
   }
 
-  if(!req.body.id)
+  if (!req.body.id)
     return res.status(400).json("Usuário inválido.");
 
   const [retorno, message] = await RemoverUsuario(req.body.id);
@@ -174,7 +176,7 @@ module.exports = {
   Salvar,
   GetUserByToken,
   RedefinirSenha,
-  GetUsuarios, 
+  GetUsuarios,
   GetUsuariosById,
   DeletarUsuario
 }
