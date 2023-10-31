@@ -23,12 +23,12 @@ const Salvar = async (curso) => {
     try {
         if (!curso.id) {
             const client = await ConnectDB();
-            await client.query(cursoInsert, [await GetNextId(), curso.nome, curso.idUsuarioCoordenador, curso.periodo, curso.cargaHoraria, curso.projetoPedagogico, curso.aprovacaoCogep, curso.ataColegiado]);
+            await client.query(cursoInsert, [await GetNextId(), curso.nome, curso.periodo, curso.cargaHoraria, curso.projetoPedagogico, curso.aprovacaoCogep, curso.ataColegiado, curso.idUsuarioCoordenador]);
             client.end();
         }
         else {
             const client = await ConnectDB();
-            await client.query(`${cursoUpdate} nome = $1, idUsuarioCoordenador = $2, periodo = $3, cargaHoraria = $4, projetoPedagogico = $5, aprovacaoCogep = $6, ataColegiado = $7 WHERE idTurma = $11`, [curso.nome, curso.idUsuarioCoordenador, curso.periodo, curso.cargaHoraria, curso.projetoPedagogico, curso.aprovacaoCogep, curso.ataColegiado, curso.idCurso]);
+            await client.query(`${cursoUpdate} nome = $1, idUsuarioCoordenador = $2, periodo = $3, cargaHoraria = $4, projetoPedagogico = $5, aprovacaoCogep = $6, ataColegiado = $7 WHERE idCurso = $8`, [curso.nome, curso.idUsuarioCoordenador, curso.periodo, curso.cargaHoraria, curso.projetoPedagogico, curso.aprovacaoCogep, curso.ataColegiado, curso.id]);
             client.end();
         }
 
@@ -77,7 +77,7 @@ const Remover = async (id) => {
         await client.query(`${cursoDelete} idCurso = $1`, [id]);
         client.end();
 
-        return [true, 'Curso removida.'];
+        return [true, 'Curso removido.'];
     } catch (error) {
         console.log(error)
         return [false, error];

@@ -100,10 +100,10 @@ const DeletarCurso = async (req, res) => {
         return res.status(403).json("Token inválido. " + error)
     }
 
-    if (!req.body.id)
+    if (!req.params.id)
         return res.status(400).json("Curso inválido.");
 
-    const [retorno, message] = await Remover(req.body.id);
+    const [retorno, message] = await Remover(req.params.id);
     if (!retorno)
         return res.status(400).json(message);
 
