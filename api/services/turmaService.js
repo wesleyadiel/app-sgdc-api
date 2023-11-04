@@ -62,9 +62,9 @@ const Buscar = async () => {
         client.end();
 
         if (result.rows.length <= 0)
-            return [null, 'Nenhum usuários encontrado.'];
+            return [null, 'Nenhum turma encontrado.'];
 
-        return [result.rows, 'Usuários encontrados.'];
+        return [result.rows, 'Turmas encontrados.'];
     } catch (error) {
         console.log(error)
         return [false, error];

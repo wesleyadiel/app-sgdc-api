@@ -4,6 +4,7 @@ const router = Router();
 const { Logar, Salvar, GetUserByToken, RedefinirSenha, GetUsuarios, GetUsuariosById, DeletarUsuario } = require('../controllers/login');
 const {  SalvarTurma, GetTurmas, GetTurmaById, DeletarTurma } = require('../controllers/turmaController');
 const {  SalvarCurso, GetCursos, GetCursoById, DeletarCurso } = require('../controllers/cursoController');
+const {  SalvarDocumento, GetDocumentos, GetDocumentoById, DeletarDocumento } = require('../controllers/documentoController');
 
 //Usuarios
 router.post('/login', Logar);
@@ -25,6 +26,12 @@ router.get('/cursos', GetCursos);
 router.post('/curso', SalvarCurso);
 router.get('/curso/:id', GetCursoById);
 router.delete('/curso/:id', DeletarCurso);
+
+//Documentos
+router.get('/documentos', GetDocumentos);
+router.post('/documento', SalvarDocumento);
+router.get('/documento/:id', GetDocumentoById);
+router.delete('/documento/:id', DeletarDocumento);
 
 
 
