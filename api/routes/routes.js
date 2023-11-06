@@ -5,6 +5,7 @@ const { Logar, Salvar, GetUserByToken, RedefinirSenha, GetUsuarios, GetUsuariosB
 const {  SalvarTurma, GetTurmas, GetTurmaById, DeletarTurma } = require('../controllers/turmaController');
 const {  SalvarCurso, GetCursos, GetCursoById, DeletarCurso } = require('../controllers/cursoController');
 const {  SalvarDocumento, GetDocumentos, GetDocumentoById, DeletarDocumento } = require('../controllers/documentoController');
+const {  SalvarAtividade, GetAtividades, GetAtividadeById, DeletarAtividade } = require('../controllers/atividadeController');
 
 //Usuarios
 router.post('/login', Logar);
@@ -32,6 +33,12 @@ router.get('/documentos', GetDocumentos);
 router.post('/documento', SalvarDocumento);
 router.get('/documento/:id', GetDocumentoById);
 router.delete('/documento/:id', DeletarDocumento);
+
+//Atividades
+router.get('/atividades', GetAtividades);
+router.post('/atividade', SalvarAtividade);
+router.get('/atividade/:id', GetAtividadeById);
+router.delete('/atividade/:id', DeletarAtividade);
 
 
 

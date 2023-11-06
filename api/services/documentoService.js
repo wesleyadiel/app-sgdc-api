@@ -3,7 +3,7 @@ const { ConnectDB } = require('../../config/db');
 const documentoInsert = `INSERT INTO documento VALUES($1, $2, $3, $4, $5, $6)`;
 const documentoUpdate = `UPDATE documento SET`;
 const documentoDelete = `DELETE FROM documento WHERE`;
-const documentoSelect = `SELECT d.idDocumento, d.idTurma, t.nome, d.tipo, d.descricao, d.data, d.link FROM documento d JOIN turma t ON (t.idTurma = d.idTurma) `;
+const documentoSelect = `SELECT d.idDocumento, d.idTurma, t.nome AS turmaNome, d.tipo, d.descricao, to_char(d.data, 'DD/MM/YYYY') AS data, d.link FROM documento d JOIN turma t ON (t.idTurma = d.idTurma) `;
 
 const GetNextId = async () => {
     try {
@@ -57,7 +57,7 @@ const GetById = async (id) => {
 const Buscar = async () => {
     try {
         const client = await ConnectDB();
-        const result = await client.query(`${documentoSelect} ORDER BY t.idDocumento`);
+        const result = await client.query(`${documentoSelect} ORDER BY d.idDocumento`);
         client.end();
 
         if (result.rows.length <= 0)
