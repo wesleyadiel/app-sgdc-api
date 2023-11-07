@@ -6,6 +6,7 @@ const {  SalvarTurma, GetTurmas, GetTurmaById, DeletarTurma } = require('../cont
 const {  SalvarCurso, GetCursos, GetCursoById, DeletarCurso } = require('../controllers/cursoController');
 const {  SalvarDocumento, GetDocumentos, GetDocumentoById, DeletarDocumento } = require('../controllers/documentoController');
 const {  SalvarAtividade, GetAtividades, GetAtividadeById, DeletarAtividade } = require('../controllers/atividadeController');
+const {  GetPendenciaByIdUsuario, GetPendenciaByIdUsuarioHoje } = require('../controllers/pendenciaController');
 
 //Usuarios
 router.post('/login', Logar);
@@ -39,6 +40,10 @@ router.get('/atividades', GetAtividades);
 router.post('/atividade', SalvarAtividade);
 router.get('/atividade/:id', GetAtividadeById);
 router.delete('/atividade/:id', DeletarAtividade);
+
+//Pendencias
+router.get('/pendencias/:idUsuario', GetPendenciaByIdUsuario);
+router.get('/pendenciasHoje/:idUsuario', GetPendenciaByIdUsuarioHoje);
 
 
 

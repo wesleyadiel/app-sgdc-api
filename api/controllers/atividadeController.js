@@ -32,13 +32,13 @@ const SalvarAtividade = async (req, res) => {
         return res.status(400).json(`Observação não informada.`);
 
     if (!req.body.dataInicio)
-        return res.status(400).json(`Data não informada.`);
+        return res.status(400).json(`Data início não informada.`);
 
     if (!req.body.dataFim)
-        return res.status(400).json(`Link não informado.`);
+        return res.status(400).json(`Data fim não informada.`);
 
     if (!req.body.status)
-        return res.status(400).json(`Descrição não informada.`);
+        return res.status(400).json(`Status não informada.`);
 
     if (req.body.usuariosRelacionados.length <= 0)
         return res.status(400).json(`Nenhum usuário relacionado.`);
