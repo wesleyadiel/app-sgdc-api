@@ -10,7 +10,6 @@ const atividadeSelect = `SELECT a.idAtividade, a.idTurma, t.nome AS turmaNome, c
 const GetByIdUsuario = async (idUsuario) => {
     try {
         const client = await ConnectDB();
-        console.log(`${atividadeSelect} WHERE ua.idUsuario = ${idUsuario}`)
         const result = await client.query(`${atividadeSelect} WHERE ua.idUsuario = ${idUsuario} AND a.status = 'A'`);
         client.end();
 
